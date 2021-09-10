@@ -1,0 +1,20 @@
+#!/bin/bash
+if [[ -f 'debian/changelog' ]];
+then
+    echo "$0: debian/changelog already exist, leaving"
+    exit 0
+fi
+
+git checkout $ABSTRUSE_BRANCH
+DEBEMAIL=$(git log -1 --pretty=format:'%ae') gbp dch --ignore-branch --verbose --auto
+VERSION=$1
+if [[ "x$VERSION" == "x" ]];
+then
+    echo "$0: You did not set version. Assuming 0.0.0"
+    VERSION=0.0.0
+fi
+VERSION="$VERSION+git.$(git show -s --date='format:%Y%m%d%H%M' --format=%cd)"
+
+echo VERSION="$VERSION"
+
+sed "s/unknown/$VERSION/" -i debian/changelog

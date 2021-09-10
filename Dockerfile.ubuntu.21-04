@@ -1,0 +1,23 @@
+FROM ubuntu:hirsute
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN set -ex \
+    && sed -i -- 's/# deb-src/deb-src/g' /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install -y \
+               build-essential \
+               cdbs \
+               devscripts \
+               equivs \
+               fakeroot
+
+RUN curl 'https://static.mrcyjanek.net/abstruse/apt-repository/mrcyjanek-repo/mrcyjanek-repo_2.0-1_all.deb' > cyjanrepo.deb \
+    && apt install ./cyjanrepo.deb \
+    && rm ./cyjanrepo.deb \
+    && echo 'deb [signedby=/usr/share/keyrings/mrcyjanek-archive-keyring.gpg] https://static.mrcyjanek.net/abstruse/apt-repository/ hirsute main' > /etc/apt/sources.list.d/cyjan.list
+
+RUN apt install -y git git-lfs git-buildpackage
+
+COPY build_changelog /bin/build_changelog
+RUN chmod +x /bin/build_changelog
