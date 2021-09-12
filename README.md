@@ -8,7 +8,7 @@ Currently available images:
  - `mrcyjanek/waydroid:debian.11` (bullseye)
  - `mrcyjanek/waydroid:debian.12` (bookworm)
  - `mrcyjanek/waydroid:ubuntu.21-04` (hirsute)
- - `mrcyjanek/waydroid:ubuntu.21-10` (impish)
+ - `mrcyjanek/waydroid:ubuntu.21-10` (impish) [(broken)](https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg5953736.html)
 
 Currently the images are built for:
  - `linux/amd64`
@@ -31,8 +31,6 @@ matrix:
    image: mrcyjanek/waydroid:debian.12
  - env: DISTRO=hirsute
    image: mrcyjanek/waydroid:ubuntu.21-04
- - env: DISTRO=impish
-   image: mrcyjanek/waydroid:ubuntu.21-10
 script:
  - apt update
  - build_changelog
